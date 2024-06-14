@@ -1,7 +1,7 @@
 <?php
 
 /**
- * [Shortcode Name here]
+ * [This is Roshani's Shortcode]
  *	Replace shortcode name with anything you want!
  */
 function func_roshani_shortcode($atts){
