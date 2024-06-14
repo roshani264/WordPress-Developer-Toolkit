@@ -21,6 +21,6 @@ function my_custom_menu_callback() {
     
 	echo '<div class="wrap">';
 		 echo '<h1>Custom Menu Page</h1>';
-    echo '<p>Welcome to the custom menu page!</p>';
+    echo '<p>Hello Wordpress Developer!! Welcome to the custom menu page!</p>';
   echo '</div>';
 }
