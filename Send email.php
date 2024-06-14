@@ -16,4 +16,4 @@ if ($result) {
     echo 'Failed to send email.';
 }
 
-?>
+
