@@ -1,8 +1,9 @@
+<?php
 // Register the custom post type
 function my_custom_post_type() {
     $args = array(
         'labels' => array(
-            'name' => 'Custom Post Type', // Plural name for the post type
+            'name' => 'Custom Post Type Name Here', // Plural name for the post type
             'singular_name' => 'Custom Post', // Singular name for the post type
         ),
         'public' => true, // Whether the post type is publicly accessible
