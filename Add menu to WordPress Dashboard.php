@@ -1,3 +1,4 @@
+<?php
 // Add the menu page
 function my_custom_menu_page() {
     add_menu_page(
