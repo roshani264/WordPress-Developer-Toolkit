@@ -20,7 +20,7 @@ function my_custom_menu_callback() {
     // Add your code to render the menu page here
     
 	echo '<div class="wrap">';
-		 echo '<h1>Custom Menu Page</h1>';
+		 echo '<h1>Custom Menu Page1234</h1>';
     echo '<p>Welcome to the custom menu page!</p>';
   echo '</div>';
 }
