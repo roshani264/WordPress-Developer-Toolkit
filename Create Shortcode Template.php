@@ -9,16 +9,12 @@ function func_roshani_shortcode($atts){
 	$atts = shortcode_atts([
 	// You can use any one as needed
 	   'variable1' => 'value1',
-		'variable2' => 'value2',
-		'variable3' => 'value3',
-		'variable4' => 'value4',
-		'variable5' => 'value5'
+		
 		
 	], $atts, $tag);
 		
 		$variable1 = $atts["variable1"];
-		$variable2 = $atts["variable2"];
-		$variable3 = $atts["variable3"];
+		
 	
 	ob_start();
 ?>
@@ -30,4 +26,4 @@ function func_roshani_shortcode($atts){
 	ob_end_clean();
 	return $out;
 }
-add_shortcode("roshani_shortcode","func_roshani_shortcode");
+add_shortcode("roshani_shortcode1","func_roshani_shortcode2");
