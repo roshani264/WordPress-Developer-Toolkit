@@ -1,3 +1,4 @@
+<?php
 // Register the custom post type
 function my_custom_post_type() {
     $args = array(
