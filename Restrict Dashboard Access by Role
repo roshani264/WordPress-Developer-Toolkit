@@ -1,0 +1,31 @@
+<?php
+/**
+ * Plugin Name: Restrict Dashboard Access by Role
+ * Description: Restricts non-admin users from accessing the WordPress dashboard.
+ * Version: 1.0
+ */
+
+// Block dashboard access for non-admin/non-editor roles
+function wdt_restrict_admin_access() {
+    $redirect_url = home_url( '/' );
+    
+    if ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+        $current_user = wp_get_current_user();
+        
+        // Check if user lacks specific capabilities (e.g., editing posts)
+        if ( ! current_user_can( 'edit_posts' ) ) {
+            wp_safe_redirect( $redirect_url );
+            exit;
+        }
+    }
+}
+add_action( 'admin_init', 'wdt_restrict_admin_access' );
+
+// Hide Admin Bar on frontend for subscribers/customers
+function wdt_hide_admin_bar( $show ) {
+    if ( ! current_user_can( 'edit_posts' ) ) {
+        return false;
+    }
+    return $show;
+}
+add_filter( 'show_admin_bar', 'wdt_hide_admin_bar' );
