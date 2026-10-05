@@ -1,0 +1,47 @@
+<?php
+/**
+ * Plugin Name: Add Custom Meta Box to Posts
+ * Description: Adds a custom meta box to the WordPress post editor screen.
+ * Version: 1.0
+ */
+
+// Register the meta box
+function wdt_add_post_meta_box() {
+    add_meta_box(
+        'wdt_subtitle_meta_box',
+        __( 'Post Subtitle', 'wordpress-developer-toolkit' ),
+        'wdt_post_meta_box_html',
+        'post',
+        'normal',
+        'high'
+    );
+}
+add_action( 'add_meta_boxes', 'wdt_add_post_meta_box' );
+
+// Display meta box content
+function wdt_post_meta_box_html( $post ) {
+    $value = get_post_meta( $post->ID, '_wdt_post_subtitle', true );
+    wp_nonce_field( 'wdt_save_post_subtitle', 'wdt_subtitle_nonce' );
+    ?>
+    <label for="wdt_post_subtitle_field"><?php _e( 'Enter subtitle for this post:', 'wordpress-developer-toolkit' ); ?></label>
+    <input type="text" id="wdt_post_subtitle_field" name="wdt_post_subtitle_field" value="<?php echo esc_attr( $value ); ?>" style="width:100%; margin-top: 5px;" />
+    <?php
+}
+
+// Save meta box data
+function wdt_save_post_subtitle( $post_id ) {
+    if ( ! isset( $_POST['wdt_subtitle_nonce'] ) || ! wp_verify_nonce( $_POST['wdt_subtitle_nonce'], 'wdt_save_post_subtitle' ) ) {
+        return;
+    }
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    if ( isset( $_POST['wdt_post_subtitle_field'] ) ) {
+        update_post_meta( $post_id, '_wdt_post_subtitle', sanitize_text_field( $_POST['wdt_post_subtitle_field'] ) );
+    }
+}
+add_action( 'save_post', 'wdt_save_post_subtitle' );
