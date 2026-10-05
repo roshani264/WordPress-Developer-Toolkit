@@ -1,0 +1,30 @@
+<?php
+/**
+ * Plugin Name: Custom REST API Endpoint
+ * Description: Registers a custom WP REST API route to fetch custom site data.
+ * Version: 1.0
+ */
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'wdt/v1', '/site-stats/', array(
+        'methods'  => 'GET',
+        'callback' => 'wdt_get_site_stats_callback',
+        'permission_callback' => '__return_true', // Public endpoint (use nonce/capability for secured routes)
+    ) );
+});
+
+function wdt_get_site_stats_callback( $request ) {
+    $published_posts = wp_count_posts()->publish;
+    $published_pages = wp_count_posts('page')->publish;
+    $total_users     = count_users();
+
+    $data = array(
+        'status'         => 'success',
+        'total_posts'    => $published_posts,
+        'total_pages'    => $published_pages,
+        'total_users'    => $total_users['total_users'],
+        'generated_at'   => current_time( 'mysql' ),
+    );
+
+    return rest_ensure_response( $data );
+}
