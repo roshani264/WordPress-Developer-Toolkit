@@ -1,0 +1,25 @@
+<?php
+/**
+ * Plugin Name: Redirect After Login by Role
+ * Description: Redirects users to custom URLs based on their user role upon login.
+ * Version: 1.0
+ */
+
+function wdt_login_redirect_by_role( $redirect_to, $request, $user ) {
+    // Make sure user object is valid
+    if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+        
+        // Redirect Shop Managers / Administrators to backend dashboard
+        if ( in_array( 'administrator', $user->roles ) || in_array( 'shop_manager', $user->roles ) ) {
+            return admin_url();
+        }
+        
+        // Redirect Customers / Subscribers to a custom account dashboard page
+        if ( in_array( 'customer', $user->roles ) || in_array( 'subscriber', $user->roles ) ) {
+            return home_url( '/my-account/' );
+        }
+    }
+    
+    return $redirect_to;
+}
+add_filter( 'login_redirect', 'wdt_login_redirect_by_role', 10, 3 );
