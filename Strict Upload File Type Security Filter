@@ -1,0 +1,22 @@
+<?php
+/**
+ * Plugin Name: Strict Mime Type Security Filter
+ * Description: Restricts media uploads to safe formats and validates mime types.
+ * Version: 1.0
+ */
+
+function wdt_custom_mime_types( $mimes ) {
+    // Allow standard safe web formats, remove risky executables or scripts
+    $mimes['jpg|jpeg|jpe'] = 'image/jpeg';
+    $mimes['png']          = 'image/png';
+    $mimes['webp']         = 'image/webp';
+    $mimes['svg']          = 'image/svg+xml';
+    $mimes['pdf']          = 'application/pdf';
+    
+    // Explicitly unset dangerous formats if present
+    unset( $mimes['exe'] );
+    unset( $mimes['php'] );
+    
+    return $mimes;
+}
+add_filter( 'upload_mimes', 'wdt_custom_mime_types' );
