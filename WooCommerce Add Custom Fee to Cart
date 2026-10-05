@@ -1,0 +1,20 @@
+<?php
+/**
+ * Plugin Name: WooCommerce Custom Dynamic Fee
+ * Description: Adds a custom handling fee dynamically to the WooCommerce cart.
+ * Version: 1.0
+ */
+
+function wdt_add_custom_cart_fee( $cart ) {
+    if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+        return;
+    }
+
+    // Example condition: Add a $10 rush handling fee if cart subtotal is under $100
+    $fee_amount = 10.00;
+    
+    if ( $cart->subtotal < 100 && $cart->subtotal > 0 ) {
+        $cart->add_fee( __( 'Standard Handling Fee', 'wordpress-developer-toolkit' ), $fee_amount, true, 'standard' );
+    }
+}
+add_action( 'woocommerce_cart_calculate_fees', 'wdt_add_custom_cart_fee' );
