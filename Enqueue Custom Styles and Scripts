@@ -1,0 +1,32 @@
+<?php
+/**
+ * Plugin Name: Enqueue Custom Styles and Scripts
+ * Description: Properly enqueues custom CSS and JS files for the theme frontend.
+ * Version: 1.0
+ */
+
+function wdt_enqueue_frontend_assets() {
+    // Enqueue custom stylesheet
+    wp_enqueue_style( 
+        'wdt-custom-style', 
+        plugin_dir_url( __FILE__ ) . 'assets/css/custom-style.css', 
+        array(), 
+        '1.0.0' 
+    );
+
+    // Enqueue custom script with jQuery as a dependency
+    wp_enqueue_script( 
+        'wdt-custom-script', 
+        plugin_dir_url( __FILE__ ) . 'assets/js/custom-script.js', 
+        array( 'jquery' ), 
+        '1.0.0', 
+        true // Load in footer
+    );
+
+    // Pass PHP data to JavaScript securely via wp_localize_script
+    wp_localize_script( 'wdt-custom-script', 'wdtData', array(
+        'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+        'nonce'   => wp_create_nonce( 'wdt_ajax_nonce' )
+    ) );
+}
+add_action( 'wp_enqueue_scripts', 'wdt_enqueue_frontend_assets' );
